@@ -1,0 +1,8 @@
+venv
+SCR/
+TAB/
+*.txt
+*.html
+*.pyc
+*.bak
+*test*
