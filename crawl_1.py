@@ -16,7 +16,7 @@ def locate():
     locations = {}
     x = "_" # Concatenator
 
-    with open(str(os.getcwd()) + "/new_US.txt", "r") as us:
+    with open(str(os.getcwd()) + "/US_norepeat.txt", "r") as us:
         
         for line in us.readlines():
             
@@ -26,21 +26,20 @@ def locate():
             city  = line[2].lower()
             
             # Set up the state's array of its cities
-            
-
             try :
 
                 if len(city.split(' ')) > 1:
-                  city = x.join(city.split(' ')).lower()
+                    city = x.join(city.split(' ')).lower()
 
                 if len(state.split(' ')) > 1:
-                  state = x.join(state.split(' ')).lower()
+                    state = x.join(state.split(' ')).lower()
 
             except Exception as err:
                 print(err)
 
             try:
                 check = locations[state]
+
             except KeyError:
                 locations[state] = []
 
@@ -61,39 +60,45 @@ def crawl(url, f_name):
     res   = urllib.request.urlopen(sauce, context=context)
     soup  = bs.BeautifulSoup(res, 'html.parser')
 
-    scripts = soup.find_all('script')
-    tables  = soup.find_all(id="mainContent_dgCostOfLiving")
-    buffer  = []
+    try:
 
-    # Collect a list of scripts as strings
-    for s in scripts:
-        buffer.append(str(s.text))
-    for b in buffer:
-        if "series" in b:
-            with open(str(os.getcwd()) + "/SCR/" + f_name + "_SCR.html", 'w') as fw :
+        # scripts = soup.find_all('script')
+        tables  = soup.find_all(id="mainContent_dgCostOfLiving")
+        buffer  = []
+
+        # # Collect a list of scripts as strings
+        # for s in scripts:
+        #     buffer.append(str(s.text))
+        # for b in buffer:
+        #     if "series" in b:
+        #         with open(str(os.getcwd()) + "/SCR/" + f_name + "_SCR.html", 'w') as fw :
+        #             fw.write(b)
+
+        buffer = []
+        # Collect a list of the costOfLiving tables
+        for t in tables:
+            buffer.append(str(t))
+        for b in buffer:
+            with open(str(os.getcwd()) + "/TAB_1/" + f_name + "_TAB.html", 'w') as fw :
                 fw.write(b)
 
-    buffer = []
-    # Collect a list of the costOfLiving tables
-    for t in tables:
-        buffer.append(str(t.text))
-    for b in buffer:
-        with open(str(os.getcwd()) + "/TAB/" + f_name + "_TAB.html", 'w') as fw :
-            fw.write(b)
+    except Exception as e:
+        print("ERROR")
+        print(e)
 
 def main():
 
-    url = ''
+    url = 'https://www.bestplaces.net/cost_of_living/city/'
     locations = locate()
     f_name = str()
     x = "_"
 
-    # locations = {"alaska" : ["anchorage", "unalaska", "akutan"]}
+    # locations = {"new_york" : ["albany"], "alaska" : ["unalaska", "akutan"]}
     
     for s in locations:
         
         if len(s.split(' ')) > 1:
-          s = x.join(s.split(' '))
+            s = x.join(s.split(' '))
 
         for c in locations[s]:
             f_name = "ww_"

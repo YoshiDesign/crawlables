@@ -6,3 +6,5 @@ TAB/
 *.pyc
 *.bak
 *test*
+*.json
+*.zip
