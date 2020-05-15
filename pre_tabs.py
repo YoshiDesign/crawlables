@@ -6,10 +6,17 @@ from helpers import check_s
 import json
 
 n = 1
+count = 0
 
 def main():
 
     """
+
+    This file will construct:
+        State Meta and rent values
+        City Meta and rent values
+
+
     #
     # # STATES AND CITIES COST OF LIVING
     #
@@ -27,6 +34,7 @@ def main():
                 "cities" : [
                     {
                         "c_name" : "city_name", 
+                        "c_id" : "abc123",
                         "state_id" : 0,
                         "scr_rent" : [],
                         "tab_col" : {
@@ -67,7 +75,7 @@ def main():
     # <u>Utilities</u>
     # <u>Transportation</u>
     # <u>Miscellaneous</u>
-    global n
+
 
     states = {
         "alabama" : [1,"AL", "alabama"],
@@ -124,9 +132,10 @@ def main():
         "wyoming" : [52,"WY", "wyoming"]
     }
 
+    global n
+    global count
     fp_redux = open("json_scr_REDUX.json", "r")
-
-    file_names = listdir("TAB_1/")
+    file_names = listdir("SCR_1/")
     bads = {}
     bajo = json.loads(fp_redux.read())
     already_visited = []
@@ -145,6 +154,9 @@ def main():
 
             # Base object per state entry
             bads[state] = {"meta":{},"avgs":{},"cities":[]}
+
+            if state == "district":
+                continue
 
             ## GET DATAS STATE META
             bads[state]["meta"]["id"]   = states[state.lower()][0]
@@ -167,9 +179,11 @@ def main():
         ## GET DATAS CITYS
         cur_id = states[state.lower()][0]
         for c in bajo[state]:
-            
+
+            count = count + 1
+
             obj_buffer = {
-                "c_name"   : "TODO",
+                "c_name"   : "",
                 "c_id"     : 0,
                 "state_id" : cur_id,
                 "scr_rent" : [],
@@ -189,20 +203,28 @@ def main():
             
             # Get the city data
             for item in c:
+                
+                check_city = city.split("_")
+                if len(check_city) > 1:
+                    city = " ".join(check_city)
+
                 if item["name"].lower() == city.lower():
                     obj_buffer["c_name"] = city.lower()
                     obj_buffer["scr_rent"] = item["data"]
                     obj_buffer["c_id"] = gen_id(pf)
                     bads[state]["cities"].append(obj_buffer)
             
-    print(bads)
+    # print(bads)
+    outp = json.dumps(bads, indent=4, sort_keys=True)
+    fp = open("pre_tabs.json", "w")
+    fp.write(outp)
+    print(":D")
 
 def visit(data, check):
     if check in data:
         return True
     else:
         data.append(check)
-        print(f"Goin' to {check}, gonna eat me a lot of peaches.")
         return False
 
 def gen_id(pf):

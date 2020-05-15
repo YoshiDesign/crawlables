@@ -1,7 +1,7 @@
 #! /usr/env/bin/python3.7
 from os import listdir
 
-def main():
+def old():
 
     for s_name in listdir("SCR_1"):
         check = s_name.split("_")
@@ -23,6 +23,11 @@ def main():
             found = False
         else:
             print(f"Failed to find {find_me}")
+
+
+def main():
+
+    
 
 
 if __name__ == "__main__":

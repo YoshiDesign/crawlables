@@ -1,4 +1,7 @@
 #! /usr/env/bin/python3.7
+
+# Generated json_scr_REDUX
+
 from os import listdir
 def main():
 
@@ -53,12 +56,12 @@ def main():
 
             if len(segs) == 8 and segs[1] not in checks:
                 # King and Queen Court House - VA
-                print("KING AND QUEEN")
+                # print("KING AND QUEEN")
                 current_state = f"{segs[1]}"
                 current_city = f"{segs[2]}_{segs[3]}_{segs[4]}_{segs[5]}_{segs[6]}"
                 pass
             elif len(segs) == 8 :
-                print("8 LEN")
+                # print("8 LEN")
                 # 2 PART STATE NAME, 4 PART CITY NAME
                 current_state = f"{segs[1]}_{segs[2]}"
                 current_city = f"{segs[3]}_{segs[4]}_{segs[5]}_{segs[6]}"
@@ -88,10 +91,13 @@ def main():
             # print("All States Visited")
             # print(states_visited)
 
-
-
         with open("./" + tdir + name, "r") as fp:
             for line in fp.readlines():
+
+                check_city = current_city.split("_")
+                if len(check_city) > 1:
+                    current_city = " ".join(check_city)
+
                 if current_city.title() in line:
                     scr_fp.write(s_key + line.lstrip() + "|;|,")
 

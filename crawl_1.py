@@ -46,7 +46,6 @@ def locate():
             if city not in locations[state]:
                 locations[state].append(city)
 
-    
     return locations
 
 
@@ -89,11 +88,12 @@ def crawl(url, f_name):
 def main():
 
     url = 'https://www.bestplaces.net/cost_of_living/city/'
-    locations = locate()
+    # locations = locate()
+
     f_name = str()
     x = "_"
 
-    # locations = {"new_york" : ["albany"], "alaska" : ["unalaska", "akutan"]}
+    locations = {"iowa" : ["arispe", "north_washington"], "alaska" : ["unalaska", "akutan"]}
     
     for s in locations:
         
