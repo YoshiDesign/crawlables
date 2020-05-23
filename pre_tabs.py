@@ -6,7 +6,6 @@ from helpers import check_s
 import json
 
 n = 1
-count = 0
 
 def main():
 
@@ -15,7 +14,6 @@ def main():
     This file will construct:
         State Meta and rent values
         City Meta and rent values
-
 
     #
     # # STATES AND CITIES COST OF LIVING
@@ -28,8 +26,17 @@ def main():
                     "name" : "name"
                 },
                 "avgs" : {
-                    "col" : 000,
+                    "col" : "DONE",
                     "rnt" : [],
+                    "mhc" : 000
+                    "tab_col" : {
+                        "gro" : 000,
+                        "hea" : 000,        # healthcare
+                        "hou" : 000,        # Housing
+                        "uti" : 000,        # Utilities
+                        "tra" : 000,        # Transportation
+                        "ent" : 000         # Miscellaneous, entertainment and whatnot"
+                    }
                 },
                 "cities" : [
                     {
@@ -66,16 +73,6 @@ def main():
     }
 
     """
-
-    # <u>Overall</u>
-    # <u>Grocery</u>
-    # <u>Health</u>
-    # <u>Housing</u>
-    # <u>Median Home Cost</u>
-    # <u>Utilities</u>
-    # <u>Transportation</u>
-    # <u>Miscellaneous</u>
-
 
     states = {
         "alabama" : [1,"AL", "alabama"],
@@ -133,7 +130,7 @@ def main():
     }
 
     global n
-    global count
+
     fp_redux = open("json_scr_REDUX.json", "r")
     file_names = listdir("SCR_1/")
     bads = {}
@@ -180,8 +177,6 @@ def main():
         cur_id = states[state.lower()][0]
         for c in bajo[state]:
 
-            count = count + 1
-
             obj_buffer = {
                 "c_name"   : "",
                 "c_id"     : 0,
@@ -203,7 +198,7 @@ def main():
             
             # Get the city data
             for item in c:
-                
+
                 check_city = city.split("_")
                 if len(check_city) > 1:
                     city = " ".join(check_city)
@@ -215,10 +210,12 @@ def main():
                     bads[state]["cities"].append(obj_buffer)
             
     # print(bads)
-    outp = json.dumps(bads, indent=4, sort_keys=True)
-    fp = open("pre_tabs.json", "w")
-    fp.write(outp)
-    print(":D")
+    # outp = json.dumps(bads,sort_keys=True)
+    # fp = open("pre_tabs_new.json", "w")
+    # fp.write(bads)
+    # print(":D")
+    # fp.close()
+    print(bads)
 
 def visit(data, check):
     if check in data:

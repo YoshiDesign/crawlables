@@ -2,7 +2,6 @@
 
 def main():
 
-
     fp  = open("US.txt", "r")
     fw  = open("US_norepeat.txt", "a+")
 
@@ -23,7 +22,6 @@ def main():
         else:
             fw.write(line)
             already_visited[state].append(city)
-
 
     fp.close()
     fw.close()
